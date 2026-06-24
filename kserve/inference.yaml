@@ -1,0 +1,13 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: iris-classifier
+  namespace: ml-serving
+spec:
+  predictor:
+    serviceAccountName: kserve-sa
+    model:
+      runtime: kserve-mlserver
+      modelFormat:
+        name: mlflow
+      storageUri: "s3://ml-models/iris/a41b49bf5ab84d31a78ab7c57b4a3fdc/model"

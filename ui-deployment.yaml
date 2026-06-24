@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inference-gui
+  namespace: ml-serving
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inference-gui
+  template:
+    metadata:
+      labels:
+        app: inference-gui
+    spec:
+      containers:
+      - name: ui-client
+        image: ghcr.io/karthiksaladi047/mlops-pipeline/client-ui:1f41e4ed990f2095aad76a6911e12ee22a2a847d
+        ports:
+        - containerPort: 7860
+        env:
+        - name: KSERVE_INFERENCE_URL
+          value: "http://iris-classifier-predictor.ml-serving.svc.cluster.local/v2/models/iris-classifier/infer"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: inference-gui-service
+  namespace: ml-serving
+spec:
+  type: NodePort
+  ports:
+  - port: 7860
+    targetPort: 7860
+    nodePort: 30500
+  selector:
+    app: inference-gui
