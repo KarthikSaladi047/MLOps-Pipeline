@@ -154,7 +154,7 @@ jobs:
         echo "Using UI image: ${UI_IMAGE}"
 
         sed -i "s|image: .*ml-ui:.*|image: ${UI_IMAGE}|g" \
-          argo-repo/kserve/ui-deployment.yaml
+          argo-repo/ui-deployment.yaml
 
     #################################################
     # Commit GitOps Changes
