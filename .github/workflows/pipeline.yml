@@ -77,7 +77,7 @@ jobs:
       env:
         MINIO_ACCESS_KEY: ${{ secrets.MINIO_ACCESS_KEY }}
         MINIO_SECRET_KEY: ${{ secrets.MINIO_SECRET_KEY }}
-	MINIO_BUCKET: ${{ vars.MINIO_BUCKET }}
+        MINIO_BUCKET: ${{ vars.MINIO_BUCKET }}
       run: |
         RUN_ID=$(cat run_id.txt)
 
