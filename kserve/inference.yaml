@@ -10,4 +10,4 @@ spec:
       runtime: kserve-mlserver
       modelFormat:
         name: mlflow
-      storageUri: "s3://ml-models/iris/a41b49bf5ab84d31a78ab7c57b4a3fdc/model"
+      storageUri: "s3://karthik-ml-models/iris/8084684c964540e7a9f0b958779c7f4e/model"
