@@ -7,9 +7,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/KarthikSaladi047/MLOps-Pipeline.git'
-    # It watches the specific branch where GitHub Actions pushes updates
     targetRevision: argo
-    # It looks inside the kserve/ folder for your YAML manifests
     path: kserve
   destination:
     server: 'https://kubernetes.default.svc'
