@@ -41,7 +41,6 @@ jobs:
         DAGSHUB_USER_NAME: ${{ secrets.DAGSHUB_USER_NAME }}
         DAGSHUB_PASSWORD: ${{ secrets.DAGSHUB_PASSWORD }}
       run: |
-        dvc remote add origin https://dagshub.com/KarthikSaladi047/MLOps-Pipeline.dvc
         dvc remote modify origin --local auth basic
         dvc remote modify origin --local user $DAGSHUB_USER_NAME
         dvc remote modify origin --local password $DAGSHUB_PASSWORD
