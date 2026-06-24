@@ -167,7 +167,7 @@ jobs:
         git config user.name "github-actions[bot]"
         git config user.email "actions@github.com"
 
-        git add kserve/inference.yaml kserve/ui-deployment.yaml
+        git add kserve/inference.yaml ui-deployment.yaml
 
         git diff --cached --quiet && exit 0
 
