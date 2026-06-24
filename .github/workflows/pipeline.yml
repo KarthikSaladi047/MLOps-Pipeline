@@ -38,13 +38,13 @@ jobs:
 
     - name: Pull Dataset
       env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.DAGSHUB_TOKEN }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.DAGSHUB_TOKEN }}
+        DAGSHUB_USER_NAME: ${{ secrets.DAGSHUB_USER_NAME }}
+        DAGSHUB_PASSWORD: ${{ secrets.DAGSHUB_PASSWORD }}
       run: |
-        dvc remote add origin s3://dvc --force
-        dvc remote modify origin endpointurl https://dagshub.com/${{ secrets.DAGSHUB_USER }}/${{ secrets.DAGSHUB_REPO }}.s3
-        dvc remote modify origin --local access_key_id $AWS_ACCESS_KEY_ID
-        dvc remote modify origin --local secret_access_key $AWS_SECRET_ACCESS_KEY
+        dvc remote add origin https://dagshub.com/KarthikSaladi047/MLOps-Pipeline.dvc
+	dvc remote modify origin --local auth basic
+        dvc remote modify origin --local user $DAGSHUB_USER_NAME
+        dvc remote modify origin --local password $DAGSHUB_PASSWORD
         dvc pull -r origin
 
     #################################################
@@ -53,9 +53,9 @@ jobs:
 
     - name: Train Model
       env:
-        MLFLOW_TRACKING_URI: https://dagshub.com/${{ secrets.DAGSHUB_USER }}/${{ secrets.DAGSHUB_REPO }}.mlflow
-        MLFLOW_TRACKING_USERNAME: ${{ secrets.DAGSHUB_USER }}
-        MLFLOW_TRACKING_PASSWORD: ${{ secrets.DAGSHUB_TOKEN }}
+        MLFLOW_TRACKING_URI: https://dagshub.com/${{github.repository}}.mlflow
+        MLFLOW_TRACKING_USERNAME: ${{ secrets.DAGSHUB_USER_NAME }}
+        MLFLOW_TRACKING_PASSWORD: ${{ secrets.DAGSHUB_PASSWORD }}
       run: |
         python train.py
 
@@ -77,6 +77,7 @@ jobs:
       env:
         MINIO_ACCESS_KEY: ${{ secrets.MINIO_ACCESS_KEY }}
         MINIO_SECRET_KEY: ${{ secrets.MINIO_SECRET_KEY }}
+	MINIO_BUCKET: ${{ vars.MINIO_BUCKET }}
       run: |
         RUN_ID=$(cat run_id.txt)
 
