@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: ui-client
-        image: ghcr.io/karthiksaladi047/mlops-pipeline/ml-ui:fc2b569d38687bbb490b2ffc9de3e2af2b6b4346
+        image: ghcr.io/karthiksaladi047/mlops-pipeline/ml-ui:88909fa33f3f4e1d9417d98d0fb525a080572767
         ports:
         - containerPort: 7860
         env:
