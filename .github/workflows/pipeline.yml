@@ -84,33 +84,6 @@ jobs:
 
           echo "MODEL_URI=s3://${{ env.MINIO_BUCKET }}/iris/${RUN_ID}/model" >> $GITHUB_ENV
 
-      # Build UI Image (UPDATED: SHA tagging added)
-
-      - name: Convert Repository Name to Lowercase
-        run: |
-          echo "LOWERCASE_IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')/ml-ui" >> $GITHUB_ENV
-
-      - name: Login to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and Push UI Image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: Dockerfile.ui
-          push: true
-          tags: |
-            ghcr.io/${{ env.LOWERCASE_IMAGE_NAME }}:latest
-            ghcr.io/${{ env.LOWERCASE_IMAGE_NAME }}:${{ github.sha }}
-
-      - name: Set UI Image Tag
-        run: |
-          echo "UI_IMAGE=ghcr.io/${{ env.LOWERCASE_IMAGE_NAME }}:${{ github.sha }}" >> $GITHUB_ENV
-
       # Checkout GitOps branch
 
       - name: Checkout GitOps Branch
@@ -128,15 +101,6 @@ jobs:
           sed -i "s|storageUri:.*|storageUri: \"${MODEL_URI}\"|g" \
             argo-repo/kserve/inference.yaml
 
-      # PATCH UI DEPLOYMENT
-
-      - name: Update UI Deployment Image
-        run: |
-          echo "Using UI image: ${UI_IMAGE}"
-
-          sed -i "s|image: .*ml-ui:.*|image: ${UI_IMAGE}|g" \
-            argo-repo/ui/ui-deployment.yaml
-
       # Commit GitOps Changes
 
       - name: Commit GitOps Changes
@@ -146,9 +110,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "actions@github.com"
 
-          git add kserve/inference.yaml ui/ui-deployment.yaml
+          git add kserve/inference.yaml
 
           git diff --cached --quiet && exit 0
 
-          git commit -m "gitops: deploy ui ${UI_IMAGE} + model ${MODEL_URI}"
+          git commit -m "gitops: model ${MODEL_URI}"
           git push origin argo
