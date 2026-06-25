@@ -1,4 +1,0 @@
-[core]
-    remote = origin
-['remote "origin"']
-    url = https://dagshub.com/KarthikSaladi047/MLOps-Pipeline.dvc

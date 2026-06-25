@@ -1,8 +1,0 @@
-# Data & ML Frameworks
-pandas==1.5.3
-scikit-learn==1.4.1.post1
-
-# MLOps Infrastructure
-dvc
-dvc[s3]
-mlflow==2.3.1
