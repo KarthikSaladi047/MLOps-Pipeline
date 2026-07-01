@@ -6,7 +6,7 @@ kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubuse
 
 2. Install Cert manager
 ```
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.ya
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 ```
 
 3. Insatall kserve
